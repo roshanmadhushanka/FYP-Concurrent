@@ -70,7 +70,7 @@ public class ThreadApp extends Thread{
         ExecutorService executorService = Executors.newFixedThreadPool(11);
 
         startTime = System.nanoTime();
-        for(int i=0; i<9; i++){
+        for(int i=0; i<8; i++){
             executorService.execute(new Runnable() {
                 @Override
                 public void run() {

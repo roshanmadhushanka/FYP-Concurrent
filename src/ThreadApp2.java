@@ -39,14 +39,16 @@ public class ThreadApp2 extends Thread{
 
     public static void crawl(String link) throws IOException {
         Document document = Jsoup.connect(link).get();
-        System.out.println("Complete : " + link);
+        System.out.println("Crawl complete : " + link);
         processQueue.add(document);
         long endTime = System.nanoTime();
         System.out.println("Took "+(endTime - startTime) / 1000000 + " ms");
     }
 
     public static void process(Document doc){
-//        doc.
+        System.out.println("Process complete");
+        long endTime = System.nanoTime();
+        System.out.println("Took "+(endTime - startTime) / 1000000 + " ms");
     }
 
     public static void withoutThreads() throws InterruptedException {
@@ -93,16 +95,15 @@ public class ThreadApp2 extends Thread{
 
     public static void processWithThreads(){
         ExecutorService processExecutorService = Executors.newFixedThreadPool(11);
+
         for(int i=0; i<9; i++){
-            executorService.execute(new Runnable() {
+            processExecutorService.execute(new Runnable() {
                 @Override
                 public void run() {
                     try {
                         while (true){
                             if(!processQueue.isEmpty()){
                                 process(processQueue.take());
-                            } else {
-                                wait();
                             }
                         }
                     } catch (InterruptedException e) {
@@ -111,7 +112,7 @@ public class ThreadApp2 extends Thread{
                 }
             });
         }
-        executorService.shutdown();
+        processExecutorService.shutdown();
     }
 
 
